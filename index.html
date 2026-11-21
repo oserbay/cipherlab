@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRYPTOLAB | Криптография курсы</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#08111f;color:#edf3ff;line-height:1.6}
+header{padding:18px 8%;display:flex;justify-content:space-between;align-items:center;background:#0d192b;border-bottom:1px solid #24354d;flex-wrap:wrap}
+.logo{font-size:24px;font-weight:bold;color:#67e8f9}
+nav a{color:#d6e3f5;text-decoration:none;margin:0 10px;font-size:14px}
+nav a:hover{color:#67e8f9}
+.hero{padding:70px 8%;background:radial-gradient(circle at top right,#164e63,#08111f 60%);display:flex;flex-wrap:wrap;align-items:center;gap:30px}
+.hero div{flex:1;min-width:260px}
+.hero h1{font-size:45px;line-height:1.2;margin-bottom:20px}
+.hero h1 span{color:#67e8f9}
+.hero p{color:#b7c7dc;margin-bottom:22px}
+.btn{display:inline-block;background:#22d3ee;color:#07111e;padding:12px 22px;border:0;border-radius:10px;font-weight:bold;text-decoration:none;cursor:pointer}
+.btn:hover{background:#67e8f9}
+.hero-icon{font-size:100px;text-align:center}
+section{padding:50px 8%}
+.section-title{font-size:30px;margin-bottom:10px}
+.subtitle{color:#9fb2ca;margin-bottom:25px}
+.stats{display:flex;gap:15px;flex-wrap:wrap;margin-top:30px}
+.stat{background:#112238;padding:20px;border:1px solid #253c56;border-radius:14px;flex:1;min-width:130px}
+.stat strong{font-size:25px;color:#67e8f9;display:block}
+.stat span{color:#b7c7dc;font-size:14px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+.card{background:#101e31;border:1px solid #24354d;border-radius:16px;padding:22px;transition:.2s}
+.card:hover{transform:translateY(-4px);border-color:#67e8f9}
+.card .number{font-size:13px;color:#67e8f9}
+.card h3{margin:8px 0}
+.card p{color:#aebed2;font-size:14px;margin-bottom:15px}
+.card button{width:100%}
+.progress-wrap{background:#23354b;height:10px;border-radius:20px;overflow:hidden;margin:15px 0}
+#progressbar{height:100%;width:0;background:#22d3ee;transition:.3s}
+.panel{background:#101e31;border:1px solid #24354d;border-radius:16px;padding:25px;margin-top:20px}
+input,textarea{width:100%;padding:12px;margin:10px 0;background:#07111e;color:white;border:1px solid #354a63;border-radius:9px;font-size:15px}
+textarea{min-height:100px}
+.lesson-content{white-space:pre-line;color:#d0dced;margin:15px 0}
+.quiz-question{padding:15px 0;border-bottom:1px solid #25354b}
+.quiz-question label{display:block;margin:8px 0;color:#c8d6e8;cursor:pointer}
+footer{padding:30px 8%;text-align:center;background:#0d192b;color:#8ea4bf;border-top:1px solid #24354d}
+.hidden{display:none}
+.small{color:#8ea4bf;font-size:13px}
+</style>
+</head>
+<body>
+
+<header>
+<div class="logo">🔐 CRYPTOLAB</div>
+<nav>
+<a href="#home">Басты бет</a>
+<a href="#lessons">Сабақтар</a>
+<a href="#practice">Практика</a>
+<a href="#quiz">Тест</a>
+<a href="#certificate">Сертификат</a>
+</nav>
+</header>
+
+<section class="hero" id="home">
+<div>
+<p style="color:#67e8f9;font-weight:bold">DIGITAL SECURITY • LEARNING • PRACTICE</p>
+<h1>Криптография<br><span>әлеміне қош кел!</span></h1>
+<p>Ақпаратты қорғауды, шифрлауды және цифрлық қауіпсіздікті интерактивті сабақтар арқылы үйрен.</p>
+<a href="#lessons" class="btn">Оқуды бастау →</a>
+<div class="stats">
+<div class="stat"><strong>8</strong><span>оқу сабағы</span></div>
+<div class="stat"><strong>1</strong><span>практика</span></div>
+<div class="stat"><strong>8</strong><span>тест сұрағы</span></div>
+</div>
+</div>
+<div class="hero-icon">🛡️</div>
+</section>
+
+<section id="lessons">
+<h2 class="section-title">Оқу бағдарламасы</h2>
+<p class="subtitle">Сабақтарды ретімен өтіп, криптография негіздерін үйрен.</p>
+<div>Сіздің прогресіңіз: <span id="progressText">0/8</span></div>
+<div class="progress-wrap"><div id="progressbar"></div></div>
+<div class="cards" id="lessonCards"></div>
+<div id="lessonView" class="panel hidden">
+<h2 id="lessonTitle"></h2>
+<div id="lessonBody" class="lesson-content"></div>
+<button class="btn" id="completeBtn">✓ Сабақты аяқтау</button>
+</div>
+</section>
+
+<section id="practice">
+<h2 class="section-title">Практика: Caesar шифры</h2>
+<p class="subtitle">Ағылшын әріптерін 3 орынға жылжытып шифрлап көр.</p>
+<div class="panel">
+<label>Мәтінді енгіз (A-Z):</label>
+<textarea id="cipherInput" placeholder="HELLO WORLD"></textarea>
+<label>Жылжыту саны:</label>
+<input id="shift" type="number" value="3">
+<button class="btn" onclick="cipher(1)">Шифрлау</button>
+<button class="btn" onclick="cipher(-1)">Кері шифрлау</button>
+<div id="cipherResult" class="lesson-content"></div>
+</div>
+</section>
+
+<section id="quiz">
+<h2 class="section-title">Білімді тексеру</h2>
+<p class="subtitle">8 сұраққа жауап бер. Сертификат үшін кемінде 6 дұрыс жауап қажет.</p>
+<div class="panel" id="quizBox"></div>
+<button class="btn" onclick="checkQuiz()">Тестті тексеру</button>
+<div id="quizResult" class="lesson-content"></div>
+</section>
+
+<section id="certificate">
+<h2 class="section-title">Сертификат</h2>
+<p class="subtitle">8 сабақты аяқтап, тесттен кемінде 6 балл жинасаң, сертификатыңды жасай аласың.</p>
+<div class="panel">
+<input id="studentName" placeholder="Аты-жөніңді енгіз">
+<button class="btn" onclick="makeCertificate()">Сертификат алу</button>
+<div id="certificateResult" class="lesson-content"></div>
+</div>
+</section>
+
+<section id="about">
+<h2 class="section-title">CRYPTOLAB туралы</h2>
+<div class="panel">
+<p>CRYPTOLAB — криптография негіздерін үйренуге арналған интерактивті оқу платформасы.</p>
+<p style="margin-top:12px">Мақсаты: шифрлау, ақпаратты қорғау және цифрлық қауіпсіздік негіздерін үйрету.</p>
+</div>
+</section>
+
+<footer>
+<div class="logo">🔐 CRYPTOLAB</div>
+<p>Криптографияны үйрен. Ақпаратты қорға.</p>
+<p class="small">Оқу жобасы • 2026</p>
+</footer>
+
+<script>
+const lessons=[
+["Криптография дегеніміз не?","Криптография — ақпаратты бөгде адамдардан қорғау үшін оны арнайы әдістермен өзгерту ғылымы.\n\nНегізгі мақсаты:\n• Құпиялылық\n• Ақпараттың бүтіндігі\n• Аутентификация\n\nКриптография деректерді қауіпсіз сақтауға және жіберуге көмектеседі."],
+["Шифрлау және дешифрлау","Шифрлау — ашық мәтінді арнайы алгоритм арқылы түсініксіз мәтінге айналдыру.\n\nДешифрлау — шифрланған мәтінді бастапқы түріне қайтару.\n\nАшық мәтін → Шифрлау → Шифрмәтін → Дешифрлау → Ашық мәтін."],
+["Caesar шифры","Caesar шифры — әр әріпті әліпбиде белгілі бір орынға жылжыту арқылы шифрлайтын әдіс.\n\nМысалы, 3 орынға жылжытқанда A → D, B → E, C → F.\n\nHELLO → KHOOR.\n\nБұл қарапайым шифр, қазіргі қауіпсіздікке жарамайды."],
+["XOR шифры","XOR — екі битті салыстыратын логикалық операция.\n\nБиттер әртүрлі болса, нәтиже 1.\nБиттер бірдей болса, нәтиже 0.\n\nXOR операциясын бірдей кілтпен екі рет қолдану бастапқы мәнді қайтаруға мүмкіндік береді."],
+["AES алгоритмі","AES — қазіргі кезде кең қолданылатын симметриялық шифрлау алгоритмі.\n\nШифрлау мен дешифрлау үшін бір ортақ кілт пайдаланылады.\n\nAES 128, 192 және 256 биттік кілттерді қолданады."],
+["RSA алгоритмі","RSA — ашық және жабық кілттерге негізделген асимметриялық криптография алгоритмі.\n\nАшық кілт ақпаратты шифрлауға қолданылады.\n\nЖабық кілт ақпаратты дешифрлауға қолданылады.\n\nЖабық кілт құпия сақталуы керек."],
+["Hash функциялары","Hash функциясы ақпаратты белгілі ұзындықтағы хэш-мәнге айналдырады.\n\nХэштеу шифрлау емес: хэшті бастапқы мәтінге кері айналдыруға арналмаған.\n\nSHA-256 — кең таралған хэш алгоритмі."],
+["Киберқауіпсіздік","Киберқауіпсіздік — компьютерлерді, желілерді және ақпаратты қауіптерден қорғау.\n\nҚауіпсіздік ережелері:\n• Күрделі пароль қолдан.\n• Екі факторлы тексеруді қос.\n• Күмәнді сілтемелерге кірме.\n• Парольді ешкімге берме.\n• Бағдарламаларды жаңартып отыр."]
+];
+
+const questions=[
+{q:"Криптографияның негізгі мақсаты қандай?",a:["Ақпаратты қорғау","Компьютерді жөндеу","Интернетті жылдамдату"],c:0},
+{q:"Шифрлау дегеніміз не?",a:["Ақпаратты жою","Мәтінді шифрмәтінге айналдыру","Файлды көшіру"],c:1},
+{q:"Caesar шифры қалай жұмыс істейді?",a:["Әріптерді жылжыту","Файлды өшіру","Суретті өзгерту"],c:0},
+{q:"XOR операциясының нәтижесі биттер әртүрлі болғанда қандай?",a:["0","1","2"],c:1},
+{q:"AES қандай алгоритм?",a:["Симметриялық","Тек хэштеу","Асимметриялық"],c:0},
+{q:"RSA қандай кілттерді қолданады?",a:["Бір ғана кілт","Ашық және жабық кілт","Кілт қолданбайды"],c:1},
+{q:"Hash функциясы не жасайды?",a:["Мәтінді белгілі ұзындықтағы хэшке айналдырады","Мәтінді міндетті түрде қайтарады","Компьютерді өшіреді"],c:0},
+{q:"Қауіпсіздік үшін не істеу керек?",a:["Барлық жерде бір пароль","Күмәнді сілтемелерді ашу","Күрделі пароль және 2FA қолдану"],c:2}
+];
+
+let completed=JSON.parse(localStorage.getItem("cryptoDone")||"[]");
+let lastScore=Number(localStorage.getItem("cryptoScore")||0);
+let currentLesson=-1;
+
+function renderLessons(){
+document.getElementById("lessonCards").innerHTML=lessons.map((l,i)=>`
+<div class="card">
+<div class="number">САБАҚ ${i+1} ${completed.includes(i)?"✓":""}</div>
+<h3>${l[0]}</h3>
+<p>${i===0?"Криптография негіздері":i===1?"Шифрлау және дешифрлау":i===2?"Қарапайым шифр":i===3?"Логикалық операция":i===4?"Заманауи шифрлау":i===5?"Асимметриялық криптография":i===6?"Хэштеу": "Цифрлық қауіпсіздік"}</p>
+<button class="btn" onclick="openLesson(${i})">Сабақты ашу</button>
+</div>`).join("");
+document.getElementById("progressText").textContent=completed.length+"/8";
+document.getElementById("progressbar").style.width=(completed.length/8*100)+"%";
+}
+function openLesson(i){
+currentLesson=i;
+document.getElementById("lessonTitle").textContent="Сабақ "+(i+1)+": "+lessons[i][0];
+document.getElementById("lessonBody").textContent=lessons[i][1];
+document.getElementById("lessonView").classList.remove("hidden");
+document.getElementById("lessonView").scrollIntoView({behavior:"smooth"});
+}
+document.getElementById("completeBtn").onclick=function(){
+if(currentLesson<0)return;
+if(!completed.includes(currentLesson))completed.push(currentLesson);
+localStorage.setItem("cryptoDone",JSON.stringify(completed));
+renderLessons();
+alert("Сабақ аяқталды!");
+};
+function cipher(direction){
+let text=document.getElementById("cipherInput").value.toUpperCase();
+let n=(Number(document.getElementById("shift").value)*direction)%26;
+let result=text.replace(/[A-Z]/g,ch=>String.fromCharCode((ch.charCodeAt(0)-65+n+26)%26+65));
+document.getElementById("cipherResult").textContent="Нәтиже: "+result;
+}
+function renderQuiz(){
+document.getElementById("quizBox").innerHTML=questions.map((q,i)=>`
+<div class="quiz-question">
+<strong>${i+1}. ${q.q}</strong>
+${q.a.map((a,j)=>`<label><input type="radio" name="q${i}" value="${j}" style="width:auto"> ${a}</label>`).join("")}
+</div>`).join("");
+}
+function checkQuiz(){
+let score=0;
+questions.forEach((q,i)=>{
+let answer=document.querySelector('input[name="q'+i+'"]:checked');
+if(answer&&Number(answer.value)===q.c)score++;
+});
+lastScore=score;
+localStorage.setItem("cryptoScore",score);
+document.getElementById("quizResult").textContent="Сіздің нәтижеңіз: "+score+"/8. "+(score>=6?"Жарайсың! Сертификат алуға тест нәтижесі жеткілікті.":"Тағы қайталап көр. Сертификат үшін 6 балл қажет.");
+}
+function makeCertificate(){
+let name=document.getElementById("studentName").value.trim();
+if(!name){alert("Аты-жөніңді енгіз!");return}
+if(completed.length<8||lastScore<6){
+document.getElementById("certificateResult").textContent="Алдымен 8 сабақты аяқтап, тесттен кемінде 6 балл жина.";
+return;
+}
+document.getElementById("certificateResult").innerHTML=
+`<div style="border:2px solid #67e8f9;border-radius:15px;padding:30px;text-align:center;margin-top:20px">
+<h2 style="color:#67e8f9">🏆 CRYPTOLAB</h2>
+<h1 style="margin:20px 0">СЕРТИФИКАТ</h1>
+<p>Бұл сертификат</p>
+<h2 style="color:#67e8f9">${name.replace(/[&<>"]/g,"")}</h2>
+<p>Криптография курсын аяқтағанын растайды.</p>
+<p>Тест нәтижесі: ${lastScore}/8</p>
+<p>${new Date().toLocaleDateString("kk-KZ")}</p>
+<button class="btn" onclick="window.print()" style="margin-top:15px">Сертификатты басып шығару</button>
+</div>`;
+}
+renderLessons();
+renderQuiz();
+</script>
+</body>
+</html>
